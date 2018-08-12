@@ -1,7 +1,10 @@
 import React,{Component} from 'react';
 import Layout from '../../components/Layout';
-import {Card} from 'semantic-ui-react';
-import NGO from '../../ethereum/NGO'
+import {Card,Button} from 'semantic-ui-react';
+import NGO from '../../ethereum/NGO';
+import web3 from '../../ethereum/web3';
+import Contribute from '../../components/Contribute';
+import {Link} from '../../routes';
 
 class ViewNGO extends Component{
     static async getInitialProps(props){
@@ -10,6 +13,7 @@ class ViewNGO extends Component{
         //const NGO_add = await meraNGO.methods.getOnBoardedNGOs().call();
         console.log(summary);
         return {
+            address:props.query.address,
             minContribution:summary[0],
             balance:summary[1],
             requestsCount:summary[2],
@@ -29,7 +33,7 @@ class ViewNGO extends Component{
             {
                 header:minContribution,
                 meta:"Minimum Contribution Requested",
-                description:"NGO requests a minimum amount",
+                description:"NGO requests a minimum amount in Wei",
                 style:{overflowWrap: 'break-word'}
             },
             {
@@ -39,7 +43,7 @@ class ViewNGO extends Component{
                 style:{overflowWrap: 'break-word'}
             },
             {
-                header:balance,
+                header:web3.utils.fromWei(balance),
                 meta:"Current Balance of the NGO",
                 description:"Current balance",
                 style:{overflowWrap: 'break-word'}
@@ -57,7 +61,18 @@ class ViewNGO extends Component{
         return(
         <Layout>
             <div><h3>NGO Statistics</h3></div>
+            <br/>
             {this.renderCards()}
+            <br/>
+            <Link route={`/NGOs/${this.props.address}/requests`}>
+            <a>
+                <Button primary>View Requests</Button>
+            </a>
+            </Link>
+            <br/>
+            <br/>
+            <br/>
+            <Contribute address={this.props.address}/>
         </Layout>
         )
         

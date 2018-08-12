@@ -31,7 +31,11 @@ class App extends Component {
         return (
         <Layout>
         <div>
+            <br/>
+            <h2>meraNGO</h2>
             <h3>A decentralized marketplace for NGOs</h3>
+
+            <br/>
             <Link route="NGOs/new">
                 <a>
                 <Button
